@@ -12,6 +12,9 @@ def create_gui(window):
     button_style = ttk.Style()
     button_style.configure("Custom.TButton", font=custom_font)
 
+    menu_style = ttk.Style()
+    menu_style.configure("Custom.TMenubutton", font=custom_font)
+
     ttk.Label(window, text="输入文件夹:", font=custom_font).grid(row=0, column=0, padx=5, pady=5, sticky="E")
     ttk.Label(window, text="输出文件夹:", font=custom_font).grid(row=1, column=0, padx=5, pady=5, sticky="E")
     ttk.Label(window, text="输出格式:", font=custom_font).grid(row=3, column=0, padx=5, pady=5, sticky="E")
@@ -24,11 +27,11 @@ def create_gui(window):
     ttk.Entry(window, textvariable=input_folder_var).grid(row=0, column=1, padx=5, pady=5, sticky="WE")
     ttk.Entry(window, textvariable=output_folder_var).grid(row=1, column=1, padx=5, pady=5, sticky="WE")
 
-    formats = ["JPG", "JPEG", "PNG", "GIF", "BMP", "ICO", "TIFF", "WEBP"]
+    formats = ["请选择格式", "JPG", "JPEG", "PNG", "GIF", "BMP", "ICO", "TIFF", "WEBP"]
 
     output_format_var = StringVar()
-    output_format_var.set(formats[0])
-    output_format_menu = ttk.OptionMenu(window, output_format_var, *formats)
+    output_format_var.set(formats[0])  # 将默认值设置为 "JPG"
+    output_format_menu = ttk.OptionMenu(window, output_format_var, *formats, style="Custom.TMenubutton")
     output_format_menu.grid(row=3, column=1, padx=5, pady=5, sticky="WE")
 
     ttk.Button(window, text="浏览", command=lambda: browse_folder(input_folder_var), style="Custom.TButton"). \

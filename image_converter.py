@@ -1,5 +1,7 @@
 import os
 import tempfile
+from tkinter import messagebox
+
 from PIL import Image
 import threading
 
@@ -35,7 +37,7 @@ def convert_image(input_path, output_path, output_format=None):
 
         # 如果图像尚未保存，则在此处保存
         if not is_saved:
-            if output_format == "JPEG" and image.mode == "RGBA":
+            if output_format == "JPEG" and image.mode != "RGB":
                 image = image.convert("RGB")
             image.save(output_path, output_format)
 
@@ -58,12 +60,20 @@ def start_conversion_threaded(input_folder_var, output_folder_var, output_format
     output_folder = output_folder_var.get()
     output_format = output_format_var.get().upper()
 
+    if not os.path.exists(input_folder):
+        messagebox.showinfo("提示", "请选择输入文件夹!!")
+        return
+
+    if not os.path.exists(output_folder):
+        messagebox.showinfo("提示", "请选择输出文件夹!!")
+        return
+
+    if output_format == "请选择格式".upper():
+        messagebox.showinfo("提示", "请选择输出格式!!")
+        return
+
     if output_format == "JPG":
         output_format = "JPEG"
-
-    if not os.path.exists(input_folder):
-        status_var.set("输入文件夹不存在！")
-        return
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -89,5 +99,5 @@ def start_conversion_threaded(input_folder_var, output_folder_var, output_format
             status_var.set(f"转换过程中发生错误: {e}")
             return
 
-    status_var.set(f"已成功转换 {success_count} 个文件！")
+    status_var.set(f"完成，已成功转换 {success_count} 个文件！")
     progress_bar.configure(value=progress_bar.cget('maximum'))  # 将进度条设置为满值
