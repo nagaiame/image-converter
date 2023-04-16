@@ -13,17 +13,14 @@ def convert_image(input_path, output_path, output_format=None):
         if output_format is None:
             output_format = os.path.splitext(output_path)[1].lstrip('.').upper()
 
-        is_saved = False  # 初始化 is_saved 变量
+        is_saved = False
 
         if image.format == "WEBP" and output_format.upper() == "GIF":
-            # 创建一个临时文件名，并将其扩展名设置为.png
             temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
             temp_png_path = temp_file.name
 
-            # 将图片转换为PNG格式并保存到临时路径
             image.save(temp_png_path, "PNG")
 
-            # 关闭临时文件
             temp_file.close()
 
             image = Image.open(temp_png_path)
@@ -35,7 +32,6 @@ def convert_image(input_path, output_path, output_format=None):
             if os.path.exists(temp_png_path):
                 os.remove(temp_png_path)
 
-        # 如果图像尚未保存，则在此处保存
         if not is_saved:
             if output_format == "JPEG" and image.mode != "RGB":
                 image = image.convert("RGB")
@@ -100,4 +96,4 @@ def start_conversion_threaded(input_folder_var, output_folder_var, output_format
             return
 
     status_var.set(f"完成，已成功转换 {success_count} 个文件！")
-    progress_bar.configure(value=progress_bar.cget('maximum'))  # 将进度条设置为满值
+    progress_bar.configure(value=progress_bar.cget('maximum'))  # 保持进度条为满

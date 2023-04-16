@@ -3,9 +3,9 @@ from ttkthemes import ThemedTk
 
 
 def main():
-    window = ThemedTk(theme="breeze")  # 使用 "breeze" 主题
-    create_gui(window)  # 调用 create_gui 函数创建图形界面
+    window = ThemedTk(theme="breeze")
+    create_gui(window)
 
 
 if __name__ == "__main__":
-    main()
+    create_gui()
